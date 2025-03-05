@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoramento</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.0/socket.io.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #logs {
+            width: 80%;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 10px;
+            border: 1px solid #ccc;
+            height: 400px;
+            overflow-y: scroll;
+            background: #f9f9f9;
+        }
+        .log {
+            border-bottom: 1px solid #ddd;
+            padding: 5px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>Monitoramento de Eventos</h1>
+    <div id="logs"></div>
+
+    <script>
+        var socket = io("http://localhost:5000");
+
+        socket.on("new_data", function(data) {
+            var logs = document.getElementById("logs");
+            var log = document.createElement("div");
+            log.className = "log";
+            log.innerHTML = "<strong>Novo evento recebido:</strong><br>" + JSON.stringify(data, null, 2);
+            logs.prepend(log);
+        });
+    </script>
+</body>
+</html>
